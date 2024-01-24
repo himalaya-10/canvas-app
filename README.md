@@ -8,7 +8,7 @@ To get started with Canvas App, follow these steps:
 
 1. **Clone the repository:**
 
-```bash
+bash
 git clone repository
 cd canvas-app
 
