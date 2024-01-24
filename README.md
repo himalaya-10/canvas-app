@@ -8,7 +8,7 @@ To get started with Canvas App, follow these steps:
 
 1. **Clone the repository:**
 
-bash
+```bash
 git clone repository
 cd canvas-app
 
@@ -22,6 +22,6 @@ This command installs all the dependencies listed in package.json, including Rea
 3. **Run the application:**
 After installing the dependencies, you can start the application with:
 
-bash
+```bash
 npm start
 This command runs the app in development mode. Open http://localhost:3000 to view it in your browser. The page will reload if you make edits.
