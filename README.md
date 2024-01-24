@@ -8,7 +8,8 @@ To get started with Canvas App, follow these steps:
 
 1. **Clone the repository:**
 
-git clone https://your-repository-url.git
+git clone the repository 
+
 cd canvas-app
 
 Install dependencies:
