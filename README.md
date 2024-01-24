@@ -10,6 +10,11 @@ To get started with Canvas App, follow these steps:
    ```bash
    git clone <repository-url>
    cd canvas-app
-Install dependencies:
+2. **Install dependencies:**
 Navigate to the project directory and install the necessary dependencies by running:
-npm install
+     ```bash
+   npm install
+
+3. **Run the application:**
+   ```bash
+   npm start
