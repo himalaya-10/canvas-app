@@ -131,6 +131,7 @@ function App() {
     }
   };
 
+
   const saveFormAsPDF = () => {
     html2canvas(formRef.current).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
@@ -140,13 +141,21 @@ function App() {
         format: [canvas.width, canvas.height]
       });
       pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-      pdf.save('form.pdf');
+      const pdfOutput = pdf.output('blob');
+      const fileName = 'form.pdf'; // Example file name
+      const fileLocation = `/path/to/save/${fileName}`; // Adjust based on your save mechanism
+  
+      // Example: save PDF blob to server or cloud storage here and get the actual file location
+  
+      // After saving the file, send its location to the MongoDB through the Express API
+      axios.post('http://localhost:5000/saveFile', { filePath: fileLocation })
+        .then(response => console.log(response.data))
+        .catch(error => console.error('Error saving file location:', error));
     });
   };
 
   return (
     <div className='App' ref={formRef}>
-      <h1>Medical Form</h1>
       <button onClick={() => setIsDrawingEnabled(!isDrawingEnabled)}>
         {isDrawingEnabled ? 'Disable Drawing Mode' : 'Enable Drawing Mode'}
       </button>
@@ -163,6 +172,8 @@ function App() {
             placeholder="Name" 
             required 
           />
+        
+
           <input 
             type="number" 
             name="bio.age" 
@@ -171,48 +182,15 @@ function App() {
             placeholder="Age" 
             required 
           />
-          {/* Sex Radio Buttons */}
-          <div>
-            Sex:
-            <label>
-              <input 
-                type="radio" 
-                name="bio.sex" 
-                value="Male" 
-                checked={formData.bio.sex === 'Male'} 
-                onChange={handleChange} 
-              />
-              Male
-            </label>
-            <label>
-              <input 
-                type="radio" 
-                name="bio.sex" 
-                value="Female" 
-                checked={formData.bio.sex === 'Female'} 
-                onChange={handleChange} 
-              />
-              Female
-            </label>
-            <label>
-              <input 
-                type="radio" 
-                name="bio.sex" 
-                value="Other" 
-                checked={formData.bio.sex === 'Other'} 
-                onChange={handleChange} 
-              />
-              Other
-            </label>
-          </div>
-          <input 
-            type="text" 
-            name="bio.id" 
-            value={formData.bio.id} 
-            onChange={handleChange} 
-            placeholder="ID" 
-            required 
-          />
+          <div className="sex-selection">
+    <label htmlFor="bio.sex">Sex:</label>
+    <select name="bio.sex" value={formData.bio.sex} onChange={handleChange} required>
+      <option value="">Select</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
           <label>
             Paid
             <input 
@@ -225,8 +203,10 @@ function App() {
         </div>
         </div>
 
+        <div className="summary-story-wrapper">
+
         {/* Past Summary Section */}
-        <div className="past-summary-section">
+        <div className="section-container past-summary-section">
         <div className="past-summary-tab">Past Summary</div>
         <div className="past-summary-content">
           <textarea
@@ -234,6 +214,19 @@ function App() {
             value={formData.pastSummary}
             onChange={handleChange}
             placeholder="Summary paragraph. GPT generated or handwritten"
+            required 
+          />
+        </div>
+        </div>
+
+          {/* Story Section */}
+          <div className="section-container story-section">
+        <div className="story-tab">Story</div>
+          <textarea
+            name="story"
+            value={formData.story}
+            onChange={handleChange}
+            placeholder="Everything in the patient's own words without any interruption"
             required 
           />
         </div>
@@ -282,17 +275,7 @@ function App() {
         </div>
         </div>
 
-        {/* Story Section */}
-        <div className="story-section">
-        <div className="story-tab">Story</div>
-          <textarea
-            name="story"
-            value={formData.story}
-            onChange={handleChange}
-            placeholder="Everything in the patient's own words without any interruption"
-            required 
-          />
-        </div>
+        <div className="all-sections-container">
 
         <div className="signs-symptoms-section">
   <div className="symptoms-section">
@@ -384,9 +367,10 @@ function App() {
   ))}
   <button type="button" onClick={() => handleAddField('reports')}>Add Report</button>
 </div>
+</div>
 
 </div>
-̥
+<div className="diagnosis-prescription-container">
 
          {/* Diagnosis Section */}
          <div className="diagnosis-section">
@@ -456,6 +440,7 @@ function App() {
             />
             ))}
         <button type="button" onClick={() => handleAddField('referralChain')}>Add Referral</button>
+      </div>
       </div>
 
         {/* Submit Button */}
