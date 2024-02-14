@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 import './App.css';
-import PatientDashboard from './PatientDashboard'; // Adjust the path if necessary
-
-
 
 function App() {
   const [formData, setFormData] = useState({
@@ -18,101 +17,151 @@ function App() {
     prescription: [{ medication: '', dosage: '', duration: '' }],
     referralChain: ['']
   });
+  const [isDrawingEnabled, setIsDrawingEnabled] = useState(false);
+  const canvasRef = useRef(null);
+  const formRef = useRef(null);
+
+  useEffect(() => {
+    if (!isDrawingEnabled || !canvasRef.current) {
+      return; // Exit if drawing isn't enabled or canvas is not available
+    }
+
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
+    let drawing = false;
+
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+    };
+
+    const startDrawing = (e) => {
+      drawing = true;
+      context.beginPath();
+      context.moveTo(
+        e.clientX - canvas.offsetLeft,
+        e.clientY - canvas.offsetTop
+      );
+    };
+
+    const draw = (e) => {
+      if (!drawing) return;
+      context.lineTo(
+        e.clientX - canvas.offsetLeft,
+        e.clientY - canvas.offsetTop
+      );
+      context.stroke();
+    };
+
+    const stopDrawing = () => {
+      drawing = false;
+    };
+
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mouseout', stopDrawing);
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    return () => {
+      canvas.removeEventListener('mousedown', startDrawing);
+      canvas.removeEventListener('mousemove', draw);
+      canvas.removeEventListener('mouseup', stopDrawing);
+      canvas.removeEventListener('mouseout', stopDrawing);
+      window.removeEventListener('resize', resizeCanvas);
+    };
+  }, [isDrawingEnabled]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-  
-    setFormData(prevState => {
-      const newState = JSON.parse(JSON.stringify(prevState)); // Deep copy of state
-      const nameParts = name.split('.');
-  
-      let currentLevel = newState;
-      for (let i = 0; i < nameParts.length; i++) {
-        const part = nameParts[i];
-        if (part.includes('[')) {
-          // Handle array fields
-          const [arrayName, arrayIndex] = part.match(/(\w+)\[(\d+)\]/).slice(1);
-          if (i === nameParts.length - 1) {
-            currentLevel[arrayName][parseInt(arrayIndex)] = type === 'checkbox' ? checked : value;
+    setFormData((prevState) => {
+      const newState = { ...prevState };
+      const keys = name.split('.');
+      let current = newState;
+
+      keys.forEach((key, index) => {
+        if (index === keys.length - 1) {
+          if (type === 'checkbox') {
+            current[key] = checked;
           } else {
-            if (!currentLevel[arrayName]) {
-              currentLevel[arrayName] = [];
-            }
-            currentLevel = currentLevel[arrayName][parseInt(arrayIndex)];
+            current[key] = value;
           }
         } else {
-          // Handle non-array fields
-          if (i === nameParts.length - 1) {
-            currentLevel[part] = type === 'checkbox' ? checked : value;
-          } else {
-            if (!currentLevel[part]) {
-              currentLevel[part] = {};
-            }
-            currentLevel = currentLevel[part];
-          }
+          if (!current[key]) current[key] = {};
+          current = current[key];
         }
-      }
-  
+      });
+
       return newState;
     });
   };
 
   const handleAddField = (fieldPath) => {
-    setFormData(prevState => {
-      // Clone the current state to avoid direct mutation
-      const newState = JSON.parse(JSON.stringify(prevState));
-  
-      switch (fieldPath) {
-        case 'signsAndSymptoms.symptoms':
-          newState.signsAndSymptoms.symptoms.push('');
-          break;
-        case 'signsAndSymptoms.signs':
-          newState.signsAndSymptoms.signs.push('');
-          break;
-        case 'tests':
-          newState.tests.push({ testName: '', result: '' });
-          break;
-        case 'reports':
-          newState.reports.push({ reportName: '', date: '', findings: '' });
-          break;
-        case 'diagnosis':
-          newState.diagnosis.push({ condition: '', date: '' });
-          break;
-        case 'prescription':
-          newState.prescription.push({ medication: '', dosage: '', duration: '' });
-          break;
-        case 'referralChain':
-          newState.referralChain.push('');
-          break;
-        default:
-          break;
-      }
-  
+    setFormData((prevState) => {
+      const newState = { ...prevState };
+      const keys = fieldPath.split('.');
+      let current = newState;
+
+      keys.forEach((key, index) => {
+        if (index === keys.length - 1) {
+          if (!current[key]) current[key] = [];
+          current[key].push('');
+        } else {
+          if (!current[key]) current[key] = {};
+          current = current[key];
+        }
+      });
+
       return newState;
     });
   };
-  
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Submitting form data:', formData);
-
     try {
       const response = await axios.post('http://localhost:5000/api/form', formData);
-      console.log('Response:', response.data);
       alert('Form submitted successfully!');
     } catch (error) {
-      console.error('Error while submitting form:', error.response ? error.response.data : error);
       alert('Error in form submission. Check console for more details.');
+      console.error('Error while submitting form:', error);
     }
   };
+
+
+  const saveFormAsPDF = () => {
+    html2canvas(formRef.current).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'px',
+        format: [canvas.width, canvas.height]
+      });
+      pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+      const pdfOutput = pdf.output('blob');
+      const fileName = 'form.pdf'; // Example file name
+      const fileLocation = `/path/to/save/${fileName}`; // Adjust based on your save mechanism
+  
+      // Example: save PDF blob to server or cloud storage here and get the actual file location
+  
+      // After saving the file, send its location to the MongoDB through the Express API
+      axios.post('http://localhost:5000/saveFile', { filePath: fileLocation })
+        .then(response => console.log(response.data))
+        .catch(error => console.error('Error saving file location:', error));
+    });
+  };
+
   return (
-    <div>
-      <h1>Medical Form</h1>
+    <div className='App' ref={formRef}>
+      <button onClick={() => setIsDrawingEnabled(!isDrawingEnabled)}>
+        {isDrawingEnabled ? 'Disable Drawing Mode' : 'Enable Drawing Mode'}
+      </button>
       <form onSubmit={handleSubmit}>
-        {/* Bio Section */}
-        <div className="bio-section">
+         {/* Bio Section */}
+         <div className="bio-section">
         <div className="bio-tab">Bio</div>
   <div className="bio-content">
           <input 
@@ -123,6 +172,8 @@ function App() {
             placeholder="Name" 
             required 
           />
+        
+
           <input 
             type="number" 
             name="bio.age" 
@@ -131,48 +182,15 @@ function App() {
             placeholder="Age" 
             required 
           />
-          {/* Sex Radio Buttons */}
-          <div>
-            Sex:
-            <label>
-              <input 
-                type="radio" 
-                name="bio.sex" 
-                value="Male" 
-                checked={formData.bio.sex === 'Male'} 
-                onChange={handleChange} 
-              />
-              Male
-            </label>
-            <label>
-              <input 
-                type="radio" 
-                name="bio.sex" 
-                value="Female" 
-                checked={formData.bio.sex === 'Female'} 
-                onChange={handleChange} 
-              />
-              Female
-            </label>
-            <label>
-              <input 
-                type="radio" 
-                name="bio.sex" 
-                value="Other" 
-                checked={formData.bio.sex === 'Other'} 
-                onChange={handleChange} 
-              />
-              Other
-            </label>
-          </div>
-          <input 
-            type="text" 
-            name="bio.id" 
-            value={formData.bio.id} 
-            onChange={handleChange} 
-            placeholder="ID" 
-            required 
-          />
+          <div className="sex-selection">
+    <label htmlFor="bio.sex">Sex:</label>
+    <select name="bio.sex" value={formData.bio.sex} onChange={handleChange} required>
+      <option value="">Select</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
           <label>
             Paid
             <input 
@@ -185,8 +203,10 @@ function App() {
         </div>
         </div>
 
+        <div className="summary-story-wrapper">
+
         {/* Past Summary Section */}
-        <div className="past-summary-section">
+        <div className="section-container past-summary-section">
         <div className="past-summary-tab">Past Summary</div>
         <div className="past-summary-content">
           <textarea
@@ -194,6 +214,19 @@ function App() {
             value={formData.pastSummary}
             onChange={handleChange}
             placeholder="Summary paragraph. GPT generated or handwritten"
+            required 
+          />
+        </div>
+        </div>
+
+          {/* Story Section */}
+          <div className="section-container story-section">
+        <div className="story-tab">Story</div>
+          <textarea
+            name="story"
+            value={formData.story}
+            onChange={handleChange}
+            placeholder="Everything in the patient's own words without any interruption"
             required 
           />
         </div>
@@ -242,17 +275,7 @@ function App() {
         </div>
         </div>
 
-        {/* Story Section */}
-        <div className="story-section">
-        <div className="story-tab">Story</div>
-          <textarea
-            name="story"
-            value={formData.story}
-            onChange={handleChange}
-            placeholder="Everything in the patient's own words without any interruption"
-            required 
-          />
-        </div>
+        <div className="all-sections-container">
 
         <div className="signs-symptoms-section">
   <div className="symptoms-section">
@@ -344,9 +367,10 @@ function App() {
   ))}
   <button type="button" onClick={() => handleAddField('reports')}>Add Report</button>
 </div>
+</div>
 
 </div>
-̥
+<div className="diagnosis-prescription-container">
 
          {/* Diagnosis Section */}
          <div className="diagnosis-section">
@@ -417,14 +441,20 @@ function App() {
             ))}
         <button type="button" onClick={() => handleAddField('referralChain')}>Add Referral</button>
       </div>
+      </div>
 
         {/* Submit Button */}
         <button type="submit">Submit</button>
       </form>
-      <PatientDashboard />
+      <button onClick={saveFormAsPDF}>Save as PDF</button>
+      {isDrawingEnabled && (
+        <canvas
+          ref={canvasRef}
+          style={{ position: 'absolute', top: 0, left: 0, zIndex: 1000, border: '1px solid black' }}
+        ></canvas>
+      )}
     </div>
   );
 }
-
 
 export default App;
