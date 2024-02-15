@@ -1,0 +1,354 @@
+.bio-section {
+    background-color: #f0f4f8;
+    /* Light grey-blue background */
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    /* Shadow for the tab */
+}
+
+.bio-tab {
+    padding: 10px 20px;
+    background-color: #007bff;
+    /* Blue background for the tab */
+    color: white;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    font-size: 1.2em;
+}
+
+.bio-content {
+    padding: 20px;
+    display: flex;
+    gap: 10px;
+    /* Space between each input */
+    flex-wrap: wrap;
+    /* Allow wrapping for smaller screens */
+    align-items: center;
+    /* Align items vertically */
+}
+
+.bio-content input[type="text"],
+.bio-content input[type="number"],
+.bio-content label,
+.bio-content .sex-selection label {
+    padding: 10px;
+    border: 1px solid #ccd6e0;
+    /* Light grey border */
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+.bio-content input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.bio-content label {
+    display: flex;
+    align-items: center;
+    /* Centers checkbox with label text */
+}
+
+/* Style for the radio buttons and their labels */
+.sex-selection {
+    display: flex;
+    gap: 10px;
+}
+
+.sex-selection label {
+    background-color: #f0f4f8;
+    cursor: pointer;
+    border: 1px solid #ccd6e0;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.sex-selection input[type="radio"] {
+    display: none;
+    /* Hide the default radio button */
+}
+
+.sex-selection input[type="radio"]:checked+label {
+    background-color: #007bff;
+    /* Light blue background for checked state */
+    color: #fff;
+}
+
+.past-summary-section {
+    background-color: #f0f4f8;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.past-summary-tab {
+    padding: 10px 20px;
+    background-color: #17a2b8;
+    /* Different shade for variety, or keep it same as bio-tab for consistency */
+    color: white;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    font-size: 1.2em;
+}
+
+.past-summary-content {
+    padding: 20px;
+}
+
+.past-summary-content textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccd6e0;
+    border-radius: 4px;
+    height: 100px;
+    /* Adjust the height as needed */
+    resize: vertical;
+    /* Allow only vertical resizing */
+}
+
+.history-section {
+    background-color: #f0f4f8;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.history-tab {
+    padding: 10px 20px;
+    background-color: #17a2b8;
+    /* A green shade for the history tab */
+    color: white;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    font-size: 1.2em;
+}
+
+.history-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    /* spacing between the inputs */
+    padding: 20px;
+}
+
+.history-content input {
+    flex: 1;
+    /* Each input will take equal space */
+    padding: 10px;
+    border: 1px solid #ccd6e0;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.history-content input:last-child {
+    margin-right: 0;
+}
+
+/* If the screen is too small, make inputs stack vertically */
+@media (max-width: 600px) {
+    .history-content input {
+        margin-right: 0;
+        width: 100%;
+    }
+}
+
+.story-section {
+    background-color: #f0f4f8;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.story-tab {
+    padding: 10px 20px;
+    background-color: #007bff;
+    /* A blue shade for the story tab */
+    color: white;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    font-size: 1.2em;
+}
+
+.story-input {
+    width: 100%;
+    padding: 20px;
+    border: none;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    height: 150px;
+    /* Adjust height as needed */
+    box-sizing: border-box;
+    /* So padding doesn't affect the width */
+    resize: none;
+    /* Optional: Prevents the user from resizing the textarea */
+}
+
+/* Add focus style for textarea */
+.story-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, .25);
+}
+
+/* If the screen is too small, adjust the padding */
+@media (max-width: 600px) {
+    .story-input {
+        padding: 10px;
+    }
+}
+
+.signs-symptoms-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.symptoms-section,
+.signs-section {
+    flex: 1;
+    margin: 0 10px;
+}
+
+.symptoms-tab,
+.signs-tab {
+    padding: 10px 20px;
+    background-color: #007bff;
+    /* A blue shade for the tab */
+    color: white;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    font-size: 1.2em;
+}
+
+.symptoms-input,
+.signs-input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    /* Spacing between input fields */
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    /* Light grey border */
+    box-sizing: border-box;
+}
+
+.add-button {
+    background-color: #007bff;
+    /* A blue shade for the button */
+    color: white;
+    padding: 10px 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.add-button:hover {
+    background-color: #0056b3;
+    /* A darker shade for hover state */
+}
+
+/* Focus styles for input fields */
+.symptoms-input:focus,
+.signs-input:focus {
+    outline: none;
+    border-color: #66afe9;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, .25);
+}
+
+/* Add this CSS to your stylesheet */
+/* Tests and Reports Sections */
+.tests-reports-section {
+    display: flex;
+    flex-direction: row;
+}
+
+/* Tests Section */
+.tests-container {
+    flex: 1;
+    padding: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-right: 16px;
+}
+
+.tests-tab {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.test-entry {
+    margin-bottom: 12px;
+}
+
+/* Reports Section */
+.reports-container {
+    flex: 1;
+    padding: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.reports-tab {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.report-entry {
+    margin-bottom: 12px;
+}
+
+.diagnosis-prescription-container {
+    flex: 1;
+    padding: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.diagnosis-section {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.diagnosis-entry {
+    margin-bottom: 12px;
+}
+
+
+.prescription-section {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.prescription-entry {
+    margin-bottom: 12px;
+}
+
+.referral-chain-section {
+    display: grid;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.referral-entry {
+    margin-bottom: 12px;
+}
+
+.form-container {
+    position: relative;
+}
+
+.overlay-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    /* High z-index to ensure it's above other elements */
+}

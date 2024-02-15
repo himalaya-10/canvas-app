@@ -3,7 +3,7 @@
   background-color: #ffffff;
   padding: 10px;
   border-radius: 4px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
 }
 
@@ -11,20 +11,26 @@
 .story-past-summary-container {
   display: flex;
   justify-content: space-between;
-  gap: 20px; /* Adjust the gap as needed */
+  gap: 20px;
+  /* Adjust the gap as needed */
 }
 
-.story-section, .past-summary-section {
-  flex: 1; /* Allocate equal space to both sections */
+.story-section,
+.past-summary-section {
+  flex: 1;
+  /* Allocate equal space to both sections */
 }
 
 @media (max-width: 768px) {
   .story-past-summary-container {
-    flex-direction: column; /* Stack sections vertically on smaller screens */
+    flex-direction: column;
+    /* Stack sections vertically on smaller screens */
   }
 
-  .story-section, .past-summary-section {
-    width: 100%; /* Full width for each section on smaller screens */
+  .story-section,
+  .past-summary-section {
+    width: 100%;
+    /* Full width for each section on smaller screens */
   }
 }
 
@@ -42,19 +48,23 @@
 
 .summary-story-wrapper {
   display: flex;
-  justify-content: space-between; /* Add space between the two sections */
-  gap: 20px; /* Optional gap between sections */
+  justify-content: space-between;
+  /* Add space between the two sections */
+  gap: 20px;
+  /* Optional gap between sections */
 }
 
 .section-container {
-  flex: 1; /* Both children will take up equal space */
+  flex: 1;
+  /* Both children will take up equal space */
   /* Other styles... */
 }
 
 /* You might want to add some responsive design adjustments */
 @media (max-width: 768px) {
   .summary-story-wrapper {
-    flex-direction: column; /* Stack them on top of each other on small screens */
+    flex-direction: column;
+    /* Stack them on top of each other on small screens */
   }
 
   .section-container {
@@ -68,7 +78,8 @@
   padding: 2px;
   border: 1px solid #ccd6e0;
   border-radius: 4px;
-  height: auto; /* Adjust height based on content */
+  height: auto;
+  /* Adjust height based on content */
   resize: vertical;
 }
 
@@ -76,31 +87,46 @@
 
 .history-content {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Creates four columns of equal width */
-  gap: 10px; /* Spacing between grid items */
-  padding: 10px; /* Padding inside the grid container */
+  grid-template-columns: repeat(4, 1fr);
+  /* Creates four columns of equal width */
+  gap: 10px;
+  /* Spacing between grid items */
+  padding: 10px;
+  /* Padding inside the grid container */
 }
 
 .history-content label {
-  display: block; /* Makes the label take the full width */
-  margin-bottom: 10px; /* Space below each label */
+  display: block;
+  /* Makes the label take the full width */
+  margin-bottom: 10px;
+  /* Space below each label */
 }
 
 .history-content textarea {
-  width: 100%; /* Full width of the grid column */
-  padding: 10px; /* Padding inside the textarea */
-  border: 1px solid #ccd6e0; /* Light grey border */
-  border-radius: 4px; /* Rounded corners */
-  resize: vertical; /* Allows the textarea to be resizable vertically */
+  width: 100%;
+  /* Full width of the grid column */
+  padding: 10px;
+  /* Padding inside the textarea */
+  border: 1px solid #ccd6e0;
+  /* Light grey border */
+  border-radius: 4px;
+  /* Rounded corners */
+  resize: vertical;
+  /* Allows the textarea to be resizable vertically */
 }
 
 
 .history-content textarea {
-  width: 100%; /* Full width of the grid column */
-  padding: 10px; /* Padding inside the textarea */
-  border: 1px solid #ccd6e0; /* Light grey border */
-  border-radius: 4px; /* Rounded corners */
-  resize: vertical; /* Allows the textarea to be resizable vertically */
+  width: 100%;
+  /* Full width of the grid column */
+  padding: 10px;
+  /* Padding inside the textarea */
+  border: 1px solid #ccd6e0;
+  /* Light grey border */
+  border-radius: 4px;
+  /* Rounded corners */
+  resize: vertical;
+  /* Allows the textarea to be resizable vertically */
 }
 
 
@@ -122,59 +148,91 @@
 
 /* Container for all sections */
 .all-sections-container {
-  display: flex;
+  /* display: flex; */
   justify-content: space-between;
-  align-items: flex-start; /* Aligns items to the top */
-  flex-wrap: nowrap; /* Prevents wrapping */
-  gap: 10px; /* Adjust the gap as needed */
-  max-height: 20vh; /* Adjust this value so that all your sections fit */
-  overflow-y: auto; 
+  align-items: flex-start;
+  /* Aligns items to the top */
+  flex-wrap: nowrap;
+  /* Prevents wrapping */
+  gap: 10px;
+  /* Adjust the gap as needed */
+  /* max-height: 20vh; */
+  /* Adjust this value so that all your sections fit */
+  /* overflow-y: auto; */
 }
 
 /* Individual section styles */
-.symptoms-section, .signs-section, .tests-container, .reports-container {
-  flex: 1; /* Each section takes equal space */
-  min-width: 0; /* Allows the flex items to shrink below their natural width */
-  padding: 10px; /* Adds some padding inside each section */
-  box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+.symptoms-section,
+.signs-section,
+.tests-container,
+.reports-container {
+  flex: 1;
+  /* Each section takes equal space */
+  min-width: 0;
+  /* Allows the flex items to shrink below their natural width */
+  padding: 10px;
+  /* Adds some padding inside each section */
+  box-sizing: border-box;
+  /* Includes padding and border in the element's total width and height */
 }
 
 /* Style adjustments for inputs and buttons to ensure they fit within their sections */
-input[type="text"], input[type="date"], textarea, button {
-  width: 100%; /* Forces these elements to take up all available width */
-  box-sizing: border-box; /* Includes padding and border in the element's total width */
+input[type="text"],
+input[type="date"],
+textarea,
+button {
+  width: 100%;
+  /* Forces these elements to take up all available width */
+  box-sizing: border-box;
+  /* Includes padding and border in the element's total width */
 }
 
 /* Additional styles for buttons to prevent them from growing too large */
 .add-button {
-  white-space: nowrap; /* Keeps the text on a single line */
-  overflow: hidden; /* Prevents content from overflowing */
-  text-overflow: ellipsis; /* Adds an ellipsis when the text overflows */
-  background-color: #007bff; /* Blue background */
-  color: white; /* White text */
-  border: none; /* No border */
-  padding: 6px 12px; /* Padding inside button */
-  border-radius: 4px; /* Rounded corners */
-  cursor: pointer; /* Cursor indicates clickable */
+  white-space: nowrap;
+  /* Keeps the text on a single line */
+  overflow: hidden;
+  /* Prevents content from overflowing */
+  text-overflow: ellipsis;
+  /* Adds an ellipsis when the text overflows */
+  background-color: #007bff;
+  /* Blue background */
+  color: white;
+  /* White text */
+  border: none;
+  /* No border */
+  padding: 6px 12px;
+  /* Padding inside button */
+  border-radius: 4px;
+  /* Rounded corners */
+  cursor: pointer;
+  /* Cursor indicates clickable */
 }
 
 .add-button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+  background-color: #0056b3;
+  /* Darker blue on hover */
 }
 
 /* Ensuring that the flex items have a basis of zero so they can shrink as needed */
-.all-sections-container > div {
-  flex: 1 1 0px; /* flex-grow, flex-shrink, flex-basis */
+.all-sections-container>div {
+  flex: 1 1 0px;
+  /* flex-grow, flex-shrink, flex-basis */
 }
 
 /* Responsive adjustments for smaller screens */
 @media (max-width: 1024px) {
   .all-sections-container {
-    flex-direction: column; /* Stack sections vertically */
-    align-items: stretch; /* Stretch children to fill the width */
+    flex-direction: column;
+    /* Stack sections vertically */
+    align-items: stretch;
+    /* Stretch children to fill the width */
   }
 
-  .symptoms-section, .signs-section, .tests-container, .reports-container {
+  .symptoms-section,
+  .signs-section,
+  .tests-container,
+  .reports-container {
     /* Resetting flex on smaller screens to take full width */
     flex-basis: auto;
   }
@@ -182,10 +240,12 @@ input[type="text"], input[type="date"], textarea, button {
 
 /* Ensure that the form container does not exceed the width of the viewport */
 .form-container {
-  max-width: 100vw; /* Maximum width of the viewport */
-  overflow-x: auto; /* Allows horizontal scrolling if content overflows */
+  max-width: 100vw;
+  /* Maximum width of the viewport */
+  overflow-x: auto;
+  /* Allows horizontal scrolling if content overflows */
   max-height: 100vw;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 /* Diagnosis and Prescription Container */
@@ -195,7 +255,8 @@ input[type="text"], input[type="date"], textarea, button {
   gap: 20px;
 }
 
-.diagnosis-section, .prescription-section {
+.diagnosis-section,
+.prescription-section {
   /* Inherit styles from common container */
   flex: 1;
 }
@@ -219,6 +280,7 @@ button {
 /* ... */
 
 @media (max-width: 768px) {
+
   .diagnosis-prescription-container,
   .signs-symptoms-section,
   .tests-reports-section {
@@ -247,15 +309,66 @@ button {
 
 
 
-  
-  .form-container {
-    position: relative;
-  }
-  
-  .overlay-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1000; /* High z-index to ensure it's above other elements */
-  }
-  
+
+.form-container {
+  position: relative;
+}
+
+.overlay-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  /* High z-index to ensure it's above other elements */
+}
+
+
+.colors:hover::before {
+  position: absolute;
+  content: '';
+  background: inherit;
+  border-radius: inherit;
+  border: solid 1.5px white;
+  height: 1rem;
+  width: 1rem;
+  transform: translate(13%, 11%);
+}
+
+.colors:first-child:hover::before {
+  border: solid 1.5px white;
+}
+
+.selected::before {
+  position: absolute;
+  content: '';
+  background: inherit;
+  border-radius: inherit;
+  border: solid 1.5px white;
+  height: 1rem;
+  width: 1rem;
+  transform: translate(13%, 11%);
+}
+
+.selected:first-child::before {
+  border: solid 1.5px white;
+}
+
+.hov:is(:hover, .active) {
+  filter: invert(50%) sepia(50%) saturate(3000%) hue-rotate(922deg) brightness(100%) contrast(100%);
+}
+
+.fill-color:checked~label {
+  color: rgb(48, 155, 255);
+}
+
+.bggradient {
+  background: linear-gradient(to top right, #33ccff 0%, #ffccff 100%);
+}
+
+.clicked {
+  background: rgb(54, 54, 54);
+}
+/* 
+.canvastouch{
+  touch-action: none;
+} */
